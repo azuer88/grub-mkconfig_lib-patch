@@ -14,4 +14,11 @@ This simple patch makes update-grub create the grub.cfg using labels instead of 
         sudo patch -p0 -i `pwd`/grub-use-labels.patch -d /usr/share/grub
 
 
+## Notes ##
+
+I usually also edit /etc/default/grub (root permission required) and uncomment the line 
+        GRUB_DISABLE_LINUX_UUID="true"
+
+So GRUB will use /dev/sdxy instead of using UUIDs.
+
 
