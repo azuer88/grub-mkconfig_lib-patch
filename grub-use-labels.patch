@@ -1,0 +1,23 @@
+--- grub-mkconfig_lib.orig	2014-10-31 12:23:15.714520777 +0800
++++ grub-mkconfig_lib	2014-10-31 12:52:24.623122681 +0800
+@@ -173,11 +173,18 @@
+     echo "set root='$fs_hint'"
+   fi
+   if fs_uuid="`"${grub_probe}" --device $@ --target=fs_uuid 2> /dev/null`" ; then
++    fs_label="`"${grub_probe}" --device $@ --target=fs_label 2> /dev/null`"
++    if [ "x${fs_label}" != "x" ]; then
++        search_opt="--label"
++    else
++        search_opt="--fs_uuid"
++	fs_label="${fs_uuid}"
++    fi
+     hints="`"${grub_probe}" --device $@ --target=hints_string 2> /dev/null`" || hints=
+     echo "if [ x\$feature_platform_search_hint = xy ]; then"
+-    echo "  search --no-floppy --fs-uuid --set=root ${hints} ${fs_uuid}"
++    echo "  search --no-floppy ${search_opt} --set=root ${hints} ${fs_label}"
+     echo "else"
+-    echo "  search --no-floppy --fs-uuid --set=root ${fs_uuid}"
++    echo "  search --no-floppy ${search_opt} --set=root ${fs_label}"
+     echo "fi"
+   fi
+   IFS="$old_ifs"
