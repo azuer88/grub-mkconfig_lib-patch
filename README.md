@@ -11,7 +11,11 @@ This simple patch makes update-grub create the grub.cfg using labels instead of 
 
 ## Install ##
 
+        # apply the patch
         sudo patch -p0 -i `pwd`/grub-use-labels.patch -d /usr/share/grub
+        
+        # update grub:
+        sudo update-grub2
 
 
 ## Notes ##
@@ -20,6 +24,9 @@ I usually also edit /etc/default/grub (root permission required) and uncomment t
 
         GRUB_DISABLE_LINUX_UUID="true"
 
-So GRUB will use /dev/sdxy instead of using UUIDs.
+So GRUB will use LABELs instead of using UUIDs.
+
+I also usually edit /etc/fstab and change UUID=yyy to LABEL=xxx.
+
 
 
